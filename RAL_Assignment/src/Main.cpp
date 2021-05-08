@@ -11,27 +11,27 @@ NTL_CLIENT
 
 int main()
 {
-	std::string buf;
-	Permutation::generateStringSequence(10, 2, buf, true);
+	cout << "Zadaj okruh p (Z2 -> 2): ";
+	int field = 0;
+	cin >> field;
 
+	cout << "Zadaj dlzku postupnosti n: ";
+	int length = 0;
+	cin >> length;
+
+	// Generate and save sequences n mod p
+	std::string buf;
+	Permutation::generateStringSequence(length, field, buf, true);
+
+	// Parse buffer to the string array
 	StringArray arr;
 	Permutation::parseStringToArray(buf, arr);
 
-    cout << "Zadaj okruh (Z2 -> 2): ";
-    int field = 0;
-
-    cin >> field;
 	ZZ_p::init(conv<ZZ>(field));
 
-	cout << "Zadaj polynom: ";
-	ZZ_pX polynom;
-
-	cin >> polynom;
-	if (IterIrredTest(polynom))
-		cout << "Irreducibilny";
-	else
-		cout << "Reducibilny";
-	cout << endl;
+	// TODO compute minimal polynomial from given sequence
+	// TODO get coeff from polynomial
+	// TODO generate CSV
 
     system("pause");
 	return 0;
