@@ -1,10 +1,38 @@
 #pragma once
 #include <iostream>
 #include <stdlib.h>
+#include <fstream>
+#include <vector>
+
+#define FILE_PATH "sequence.txt"
+
+using StringArray = std::vector<std::string>;
 
 namespace Permutation
 {
-	inline void generateSequence(int n, int field, char* buff)
+	inline void parseStringToArray(std::string &arr, StringArray &buf)
+	{
+		std::ofstream nfile;
+		nfile.open(FILE_PATH);
+		for (const auto s : arr)
+		{
+			nfile << s;
+		}
+		nfile.close();
+
+		std::string line;
+		std::ifstream ofile(FILE_PATH);
+		if (ofile.is_open())
+		{
+			while (getline(ofile, line))
+			{
+				buf.push_back(line);
+			}
+			ofile.close();
+		}
+	}
+
+	inline void generateStringSequence(int n, int field, std::string &buff, bool verbose = false)
 	{
 		std::string tmp;
 		for (int i = 0; i < field; i++)
@@ -16,7 +44,6 @@ namespace Permutation
 		int   len = 0;
 		char* buffer = (char*)malloc((n + 1) * alphaLen * alphaLen);
 		int* letters = (int*)malloc(n * sizeof(int));
-		int count = 0;
 
 		// This for loop generates all 1 letter patterns, then 2 letters, etc,
 		// up to the given maxlen.
@@ -36,9 +63,10 @@ namespace Permutation
 					buffer[j++] = '\n';
 				}
 				for (int x = 0; x < bufLen; x++) {
-					printf("%c", buffer[x]);
+					if(verbose) 
+						printf("%c", buffer[x]);
+					buff.push_back(buffer[x]);
 				}
-				count++;
 				continue;
 			}
 
@@ -66,9 +94,10 @@ namespace Permutation
 
 			// Write the first sequence out.
 			for (int x = 0; x < bufLen; x++) {
-				printf("%c", buffer[x]);
+				if (verbose)
+					printf("%c", buffer[x]);
+				buff.push_back(buffer[x]);
 			}
-			count++;
 
 			// Special case for length 2, we're already done.
 			if (len == 2)
@@ -100,11 +129,23 @@ namespace Permutation
 					// No wraparound, so we finally finished incrementing.
 					// Write out this set.  Reset i back to third to last letter.
 					for (int x = 0; x < bufLen - 1; x++) {
-						if (buffer[x] - 48 == -38) printf("\n");
-						else printf("%d", buffer[x] - 48);
+						if (buffer[x] - 48 == -38)
+						{
+							buff.push_back('\n');
+							if (verbose)
+								printf("\n");
+						}
+						else
+						{
+							buff.push_back(buffer[x]);
+							if (verbose)
+								printf("%c", buffer[x]);
+						}
 					}
-					count++;
-					printf("\n");
+					buff.push_back('\n');
+					if (verbose)
+						printf("\n");
+
 					i = len - 3;
 					continue;
 				}
@@ -118,12 +159,9 @@ namespace Permutation
 					break;
 			} while (1);
 		}
-		printf("c: %d\n", count);
 
 		// Clean up.
 		free(letters);
-
-		buff = buffer;
 		free(buffer);
 	}
 }

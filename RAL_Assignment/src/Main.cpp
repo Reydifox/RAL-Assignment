@@ -11,8 +11,11 @@ NTL_CLIENT
 
 int main()
 {
-	char* buf = new char;
-	Permutation::generateSequence(10, 3, buf);
+	std::string buf;
+	Permutation::generateStringSequence(10, 2, buf, true);
+
+	StringArray arr;
+	Permutation::parseStringToArray(buf, arr);
 
     cout << "Zadaj okruh (Z2 -> 2): ";
     int field = 0;
