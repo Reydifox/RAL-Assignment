@@ -1,9 +1,13 @@
 #include <iostream>
 #include <vector>
+#include <iterator>
+#include <map>
+
 #include <NTL/ZZ.h>
 #include <NTL/ZZ_p.h>
 #include <NTL/ZZ_pX.h>
 #include <NTL/ZZ_pXFactoring.h>
+#include <NTL/GF2EX.h>
 
 #include <Permutation.h>
 
@@ -20,8 +24,7 @@ void getMinPoly(StringArray &seq, std::vector<ZZ_pX> &out, int len, int field)
 		{
 			vec.put(i, conv<ZZ_p>(seq.at(s).at(i)));
 		}
-		ZZ_pX poly;
-		MinPolySeq(poly, vec, field);
+		ZZ_pX poly = MinPolySeq(vec, field);
 		out.push_back(poly);
 	}
 }
@@ -47,16 +50,22 @@ int main()
 	ZZ_p::init(conv<ZZ>(field));
 
 	// TODO compute minimal polynomial from given sequence
-	std::vector<ZZ_pX> polynomials;
-	getMinPoly(arr, polynomials, length, field);
+	vector<ZZ_pX> polynomials;
+	getMinPoly(arr, polynomials, length, 4);
 
-	for (const auto& p : polynomials)
+	// TODO get deg from polynomial
+	vector<int> table(length+1, 0);
+	for (int i = 0; i < polynomials.size(); i++)
 	{
-		cout << p << endl;
+		int deg_p = deg(polynomials.at(i));
+		table.at(deg_p) += 1;
 	}
 
-	// TODO get coeff from polynomial
 	// TODO generate CSV
+	for (int i = 0; i < table.size(); i++)
+	{
+		cout << i << ":" << table.at(i) << endl;
+	}
 
     system("pause");
 	return 0;
