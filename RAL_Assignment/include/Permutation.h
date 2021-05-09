@@ -4,7 +4,7 @@
 #include <fstream>
 #include <vector>
 
-#define FILE_PATH "sequence.txt"
+#define FILE_PATH "sequences.txt"
 
 using StringArray = std::vector<std::string>;
 

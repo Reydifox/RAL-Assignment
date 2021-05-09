@@ -23,5 +23,11 @@
     <ClInclude Include="include\Permutation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\CSV.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Draw.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
