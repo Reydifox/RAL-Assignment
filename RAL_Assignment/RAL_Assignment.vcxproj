@@ -155,6 +155,8 @@
     <ClCompile Include="src\Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\CSV.h" />
+    <ClInclude Include="include\Draw.h" />
     <ClInclude Include="include\Permutation.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
